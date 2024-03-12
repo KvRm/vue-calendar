@@ -54,9 +54,13 @@ const daysGroupedByWeek = computed(() => {
   const result: Record<string, Date[]> = {}
 
   days.value.forEach((day) => {
+    const month = format(day, 'M')
     const week = format(day, 'w')
-    if (!result[week]) result[week] = []
-    result[week].push(day)
+
+    const key = month === '12' && week === '1' ? '1000' : week
+
+    if (!result[key]) result[key] = []
+    result[key].push(day)
   })
 
   return result
@@ -195,6 +199,10 @@ function handleNextWeek() {
   background-color: var(--vue-calendar-disable);
   color: var(--vue-calendar-disable-text);
   cursor: no-drop;
+
+  &:hover {
+    background-color: var(--vue-calendar-disable);
+  }
 }
 .header {
   display: flex;
